@@ -1,0 +1,269 @@
+:root {
+  --bg: #f6f3e6;
+  --paper: #fffdf6;
+  --ink: #1b1b1b;
+  --muted: #5b574c;
+  --gold: #b8862b;
+  --gold-soft: #f1e3c2;
+  --teal: #2f7d6d;
+  --red: #c2453d;
+  --red-soft: #f6d5d1;
+  --green: #2f8a4a;
+  --green-soft: #d3ecd9;
+  --purple: #7a4fc4;
+  --line: #e3dcc6;
+  --display: "Anton", Impact, "Arial Narrow Bold", sans-serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 var(--sans);
+}
+
+a { color: inherit; }
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+/* Hero */
+.hero { padding: 64px 0 40px; }
+
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(3.2rem, 9vw, 6.5rem);
+  line-height: 0.95;
+  margin: 0 0 16px;
+}
+
+.hero .intro { max-width: 62ch; font-size: 1.15rem; color: var(--muted); margin: 0; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.legend span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  margin-right: 6px;
+  vertical-align: -2px;
+}
+
+.toc {
+  list-style: none;
+  padding: 0;
+  margin: 36px 0 0;
+  display: grid;
+  gap: 6px;
+  font-size: 1.1rem;
+}
+
+.toc li::before { content: "◆"; color: var(--gold); margin-right: 12px; font-size: 0.75em; }
+
+.toc a { text-decoration: none; font-weight: 600; }
+
+.toc a strong { color: var(--gold); }
+
+.toc a:hover strong { text-decoration: underline; }
+
+/* Concept sections */
+.concept {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 48px;
+  align-items: start;
+  padding: 64px 0;
+  border-top: 2px solid var(--line);
+}
+
+.eyebrow { margin: 0; font: 700 0.85rem var(--mono); letter-spacing: 0.12em; color: var(--gold); }
+
+.concept h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1;
+  margin: 6px 0 10px;
+}
+
+.tagline { font-weight: 700; font-size: 1.1rem; margin: 0 0 16px; }
+
+.concept h3 {
+  margin: 28px 0 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.concept ul { padding-left: 1.2em; margin: 0; }
+
+.concept li { margin: 6px 0; }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--gold-soft);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+pre {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 13px/1.7 var(--mono);
+  overflow-x: auto;
+}
+
+pre code { background: none; padding: 0; font-size: inherit; }
+
+pre .c { color: #a59f8c; }
+
+.resources { list-style: none; padding: 0 !important; display: grid; gap: 8px; }
+
+.resources a {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.resources a:hover, .resources a:focus-visible { border-color: var(--gold); transform: translateX(4px); }
+
+.resources small { font-weight: 400; color: var(--muted); }
+
+/* Visual panel */
+.concept-viz { position: sticky; top: 24px; margin: 0; }
+
+figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.replay {
+  flex-shrink: 0;
+  font: 600 0.85rem var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.replay:hover { background: var(--ink); color: var(--paper); }
+
+footer { padding: 40px 0 56px; border-top: 2px solid var(--line); color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 860px) {
+  .concept { grid-template-columns: 1fr; gap: 24px; }
+  .concept-viz { position: static; order: -1; }
+}
+
+/* SVG vocabulary */
+.viz {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.viz .box { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+.viz .zone { fill: none; stroke: var(--gold); stroke-width: 2; stroke-dasharray: 6 5; }
+.viz .file { fill: var(--gold-soft); stroke: var(--ink); stroke-width: 1.5; }
+.viz .divider { stroke: var(--line); stroke-width: 1.5; }
+.viz .line { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.viz .line.thin { stroke-width: 2.5; }
+.viz .line.feature { stroke: var(--teal); }
+.viz .link { fill: none; stroke: var(--gold); stroke-width: 3; stroke-dasharray: 8 6; stroke-linecap: round; }
+.viz .commit { fill: #fff; stroke: var(--ink); stroke-width: 3; }
+.viz .commit.feature { stroke: var(--teal); }
+.viz .commit.new { fill: var(--gold); }
+.viz .commit.team { fill: var(--teal); }
+.viz .ghost { fill: none; stroke: var(--teal); stroke-width: 2; stroke-dasharray: 4 4; }
+.viz .ring { fill: none; stroke: var(--gold); stroke-width: 3; }
+.viz .packet { fill: var(--gold); }
+.viz .head { fill: var(--ink); }
+.viz .scan { fill: var(--gold); }
+
+.viz .label { font: 600 12px var(--sans); fill: var(--muted); }
+.viz .title { font: 700 15px var(--sans); fill: var(--ink); }
+.viz .title.small { font-size: 14px; }
+.viz .cmd { font: 600 13px var(--mono); fill: var(--ink); }
+.viz .code { font: 11px var(--mono); fill: var(--ink); }
+.viz .hash { font: 700 11px var(--mono); fill: var(--ink); }
+.viz .commit-text { font: 700 12px var(--sans); fill: var(--ink); }
+.viz .del, .viz .conflict { fill: var(--red); }
+.viz .add, .viz .ok-text, .viz .check-text { fill: var(--green); }
+.viz .conflict { font-weight: 700; }
+.viz .check-text { font: 600 12px var(--sans); }
+.viz .mark { font: 700 13px var(--mono); }
+.viz .gold-text { fill: var(--gold); }
+.viz .teal-text { fill: var(--teal); }
+.viz .warn { font: 700 12px var(--mono); fill: var(--red); }
+
+.viz .hl-del { fill: var(--red-soft); }
+.viz .hl-add { fill: var(--green-soft); }
+.viz .hl-pick { fill: var(--gold-soft); }
+.viz .bubble { fill: var(--gold-soft); }
+
+.viz .badge { fill: var(--ink); }
+.viz .pill-text { font: 700 11px var(--sans); fill: #fff; }
+.viz .pill-open, .viz .ok { fill: var(--green); }
+.viz .pill-merged { fill: var(--purple); }
+.viz .pill-branch { fill: var(--teal); }
+.viz .tag-bug { fill: var(--red-soft); }
+.viz .tag-prio { fill: var(--gold-soft); }
+.viz .tag-text { font: 600 11px var(--sans); fill: var(--ink); }
+.viz .avatar { fill: var(--purple); }
+.viz .avatar.teal { fill: var(--teal); }
+.viz .avatar-text { font: 700 11px var(--sans); fill: #fff; }
+.viz .cbox { fill: #fff; stroke: var(--muted); stroke-width: 1.5; }
+.viz .tick-bg { fill: var(--green); }
+.viz .tick-mark, .viz .tick-dark {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.viz .tick-mark { stroke: #fff; }
+.viz .tick-dark { stroke: var(--green); }

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git cheat sheet — animated</title>
+  <meta name="description" content="Eleven core Git and GitHub concepts explained with animated SVG diagrams, practical considerations and curated resources.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero wrap">
+    <h1>Git cheat sheet</h1>
+    <p class="intro">Eleven Git &amp; GitHub concepts — what they do, what to watch out for, and an animated diagram of each one in action. Animations play when scrolled into view.</p>
+    <ul class="legend" aria-label="Diagram legend">
+      <li><span style="background:#fff"></span>commit on <code>main</code></li>
+      <li><span style="background:#fff;border-color:var(--teal)"></span>commit on a feature branch</li>
+      <li><span style="background:var(--gold)"></span>your new commit</li>
+      <li><span style="background:var(--teal)"></span>a teammate's commit</li>
+    </ul>
+    <nav aria-label="Concepts">
+      <ul class="toc">
+        <li><a href="#repository"><strong>Repository (repo):</strong> the project folder, tracked by Git and hosted on GitHub et al</a></li>
+        <li><a href="#clone"><strong>Clone:</strong> download a copy of the code to your machine</a></li>
+        <li><a href="#branch"><strong>Branch:</strong> a safe parallel timeline to the main codebase</a></li>
+        <li><a href="#commit"><strong>Commit:</strong> a snapshot + message describing your changes</a></li>
+        <li><a href="#push-pull"><strong>Push / Pull:</strong> upload to / download from the hosted repository</a></li>
+        <li><a href="#diff"><strong>Diff:</strong> the visual difference between two versions of code</a></li>
+        <li><a href="#merge"><strong>Merge:</strong> combine a branch back into another branch</a></li>
+        <li><a href="#rebase"><strong>Rebase:</strong> replay your commits on top of the latest <code>main</code></a></li>
+        <li><a href="#merge-conflict"><strong>Merge conflict:</strong> two changes touched the same lines; you choose</a></li>
+        <li><a href="#pull-request"><strong>Pull Request (PR):</strong> "please review and merge my branch"</a></li>
+        <li><a href="#issue"><strong>Issue:</strong> a ticket: bug, feature, or task</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <!-- 01 Repository -->
+    <section class="concept" id="repository" aria-labelledby="h-repository">
+      <div>
+        <p class="eyebrow">01</p>
+        <h2 id="h-repository">Repository (repo)</h2>
+        <p class="tagline">The project folder, tracked by Git and hosted on GitHub et al.</p>
+        <p>A repository is your project's files plus a hidden <code>.git</code> directory that stores every snapshot, branch and the complete history. A copy hosted on GitHub, GitLab or Bitbucket — a <em>remote</em>, usually called <code>origin</code> — is how a team shares that history.</p>
+        <h3>Try it</h3>
+        <pre><code>git init
+git remote add origin https://github.com/you/project.git
+git status</code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Add a <code>.gitignore</code> on day one so build output, <code>node_modules</code> and <code>.env</code> files never get committed.</li>
+          <li>Never commit secrets. History is permanent — deleting a file later doesn't remove it. Rotate any leaked key immediately.</li>
+          <li>Give hosted repos a README, a LICENSE and clear contribution notes.</li>
+          <li>Large binaries bloat every clone forever; use Git LFS for media and datasets.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository" target="_blank" rel="noopener noreferrer">Getting a Git Repository<small>Pro Git book</small></a></li>
+          <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories" target="_blank" rel="noopener noreferrer">About repositories<small>GitHub Docs</small></a></li>
+          <li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener noreferrer">github/gitignore templates<small>GitHub</small></a></li>
+          <li><a href="https://git-lfs.com/" target="_blank" rel="noopener noreferrer">Git Large File Storage<small>git-lfs.com</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="repo" viewBox="0 0 480 240" role="img" aria-labelledby="t-repo">
+          <title id="t-repo">A project folder gets a .git directory, its files become tracked, and it is connected to a remote on GitHub.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git remote add origin … &amp;&amp; git push</text>
+          <g data-el="folder">
+            <path class="box" d="M30 70 h60 l14 16 h106 v124 h-180 z"/>
+            <text class="label" x="120" y="230" text-anchor="middle">my-project/</text>
+          </g>
+          <g data-el="gitbadge">
+            <rect class="badge" x="150" y="54" width="56" height="24" rx="12"/>
+            <text class="pill-text" x="178" y="70" text-anchor="middle">.git</text>
+          </g>
+          <g data-el="file"><rect class="file" x="48" y="100" width="120" height="24" rx="5"/><text class="code" x="58" y="116">index.html</text></g>
+          <g data-el="file"><rect class="file" x="48" y="132" width="120" height="24" rx="5"/><text class="code" x="58" y="148">style.css</text></g>
+          <g data-el="file"><rect class="file" x="48" y="164" width="120" height="24" rx="5"/><text class="code" x="58" y="180">app.js</text></g>
+          <g data-el="tick"><circle class="tick-bg" cx="188" cy="112" r="9"/><path class="tick-mark" d="M184 112 l3 3 l5 -6"/></g>
+          <g data-el="tick"><circle class="tick-bg" cx="188" cy="144" r="9"/><path class="tick-mark" d="M184 144 l3 3 l5 -6"/></g>
+          <g data-el="tick"><circle class="tick-bg" cx="188" cy="176" r="9"/><path class="tick-mark" d="M184 176 l3 3 l5 -6"/></g>
+          <path class="link" data-el="link" d="M214 140 H300"/>
+          <circle class="packet" data-el="packet" cx="214" cy="140" r="5" opacity="0"/>
+          <g data-el="remote">
+            <rect class="box" data-el="remote-box" x="300" y="90" width="150" height="100" rx="14"/>
+            <text class="title" x="375" y="130" text-anchor="middle">GitHub</text>
+            <text class="label" x="375" y="152" text-anchor="middle">origin · remote</text>
+            <text class="label" x="375" y="170" text-anchor="middle">full history</text>
+          </g>
+        </svg>
+        <figcaption><span><code>git init</code> makes a folder a repo; a remote makes it shareable.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 02 Clone -->
+    <section class="concept" id="clone" aria-labelledby="h-clone">
+      <div>
+        <p class="eyebrow">02</p>
+        <h2 id="h-clone">Clone</h2>
+        <p class="tagline">Download a copy of the code to your machine.</p>
+        <p><code>git clone</code> copies an entire repository — every file, commit and branch — onto your computer and automatically sets up a remote called <code>origin</code> pointing back to where it came from, so you can push and pull later.</p>
+        <h3>Try it</h3>
+        <pre><code>git clone https://github.com/you/project.git
+cd project
+git remote -v   <span class="c"># shows origin</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li><strong>HTTPS vs SSH:</strong> SSH keys avoid repeated credential prompts; HTTPS works through most corporate firewalls.</li>
+          <li>For huge repos, try a shallow clone (<code>--depth 1</code>) or a partial clone (<code>--filter=blob:none</code>).</li>
+          <li><strong>Clone vs fork:</strong> if you can't push to the original, fork it on GitHub first, then clone your fork.</li>
+          <li>Avoid cloning into cloud-synced folders (OneDrive, Dropbox, iCloud) — sync clients can corrupt the <code>.git</code> folder.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/docs/git-clone" target="_blank" rel="noopener noreferrer">git-clone reference<small>git-scm.com</small></a></li>
+          <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank" rel="noopener noreferrer">Cloning a repository<small>GitHub Docs</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-clone" target="_blank" rel="noopener noreferrer">git clone tutorial<small>Atlassian</small></a></li>
+          <li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh" target="_blank" rel="noopener noreferrer">Connecting to GitHub with SSH<small>GitHub Docs</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="clone" viewBox="0 0 480 240" role="img" aria-labelledby="t-clone">
+          <title id="t-clone">The full commit history is copied from GitHub down to your laptop.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git clone https://github.com/you/project.git</text>
+          <g data-el="remote">
+            <rect class="box" x="280" y="48" width="176" height="92" rx="14"/>
+            <text class="label" x="296" y="72">github.com/you/project</text>
+            <path class="line thin" d="M310 110 H420"/>
+            <circle class="commit" cx="310" cy="110" r="8"/>
+            <circle class="commit" cx="365" cy="110" r="8"/>
+            <circle class="commit" cx="420" cy="110" r="8"/>
+          </g>
+          <path class="link" data-el="path" d="M300 140 C 290 175, 250 175, 215 165"/>
+          <g data-el="laptop">
+            <rect class="box" x="40" y="110" width="170" height="95" rx="8"/>
+            <path class="box" d="M25 210 H225 L213 222 H37 Z"/>
+            <text class="label" x="125" y="132" text-anchor="middle">~/code/project</text>
+          </g>
+          <g data-el="copy">
+            <path class="line thin" d="M310 110 H420"/>
+            <circle class="commit new" cx="310" cy="110" r="8"/>
+            <circle class="commit new" cx="365" cy="110" r="8"/>
+            <circle class="commit new" cx="420" cy="110" r="8"/>
+          </g>
+          <text class="label ok-text" data-el="done" x="125" y="196" text-anchor="middle">✓ full history + origin</text>
+        </svg>
+        <figcaption><span>Every commit comes along — not just the latest files.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 03 Branch -->
+    <section class="concept" id="branch" aria-labelledby="h-branch">
+      <div>
+        <p class="eyebrow">03</p>
+        <h2 id="h-branch">Branch</h2>
+        <p class="tagline">A safe parallel timeline to the main codebase.</p>
+        <p>A branch is a lightweight, movable pointer to a commit. Creating one lets you build a feature or fix a bug in isolation while <code>main</code> stays stable. <code>HEAD</code> marks the branch you're currently on, and it moves forward with each new commit.</p>
+        <h3>Try it</h3>
+        <pre><code>git switch -c feature/login   <span class="c"># create + switch</span>
+git branch                    <span class="c"># list branches</span>
+git switch main               <span class="c"># go back</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Keep branches short-lived and focused — long-running branches drift and cause painful conflicts.</li>
+          <li>Use descriptive names with prefixes such as <code>feature/</code>, <code>fix/</code> or <code>docs/</code>.</li>
+          <li>Protect <code>main</code> with branch protection rules (required reviews, passing CI).</li>
+          <li>Delete branches once merged to keep the list readable.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell" target="_blank" rel="noopener noreferrer">Branches in a Nutshell<small>Pro Git book</small></a></li>
+          <li><a href="https://learngitbranching.js.org/" target="_blank" rel="noopener noreferrer">Learn Git Branching<small>Interactive tutorial</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener noreferrer">Using branches<small>Atlassian</small></a></li>
+          <li><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches" target="_blank" rel="noopener noreferrer">About protected branches<small>GitHub Docs</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="branch" viewBox="0 0 480 240" role="img" aria-labelledby="t-branch">
+          <title id="t-branch">A feature branch splits off main and gains its own commits while main continues independently.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git commit -m "…"</text>
+          <path class="line" data-el="main" d="M30 170 H450"/>
+          <path class="line feature" data-el="fpath" d="M150 170 C 190 170, 190 90, 230 90 H 430"/>
+          <circle class="commit" data-el="mc" cx="70" cy="170" r="10"/>
+          <circle class="commit" data-el="mc" cx="150" cy="170" r="10"/>
+          <circle class="commit" data-el="mc2" cx="380" cy="170" r="10"/>
+          <circle class="commit feature" data-el="fc" cx="250" cy="90" r="10"/>
+          <circle class="commit feature" data-el="fc" cx="320" cy="90" r="10"/>
+          <circle class="commit feature" data-el="fc" cx="390" cy="90" r="10"/>
+          <g data-el="flabel">
+            <rect class="pill-branch" x="205" y="46" width="112" height="22" rx="11"/>
+            <text class="pill-text" x="261" y="61" text-anchor="middle">feature/login</text>
+          </g>
+          <g data-el="head">
+            <path class="head" d="M250 106 l-6 10 h12 z"/>
+            <text class="label" x="250" y="132" text-anchor="middle">HEAD</text>
+          </g>
+          <text class="label" data-el="mlabel" x="30" y="200">main</text>
+          <text class="label" data-el="note" x="380" y="200" text-anchor="middle">main keeps moving too</text>
+        </svg>
+        <figcaption><span>Work on the branch never touches <code>main</code> until you merge.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 04 Commit -->
+    <section class="concept" id="commit" aria-labelledby="h-commit">
+      <div>
+        <p class="eyebrow">04</p>
+        <h2 id="h-commit">Commit</h2>
+        <p class="tagline">A snapshot + message describing your changes.</p>
+        <p>You first <em>stage</em> changes with <code>git add</code>, then <code>git commit</code> records the staged snapshot together with an author, timestamp, parent commit and message. Each commit gets a unique SHA hash, like <code>a1f9c2e</code>, that identifies it forever.</p>
+        <h3>Try it</h3>
+        <pre><code>git add login.js
+git commit -m "feat: add login form"
+git log --oneline</code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Commit small, logical units — one idea per commit makes review, revert and bisect easy.</li>
+          <li>Write messages in the imperative: “Add login form”, not “stuff” or “fixed things”.</li>
+          <li>Use <code>git add -p</code> to stage only parts of a file.</li>
+          <li>Check what you're about to commit with <code>git diff --staged</code>.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://cbea.ms/git-commit/" target="_blank" rel="noopener noreferrer">How to Write a Git Commit Message<small>Chris Beams</small></a></li>
+          <li><a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener noreferrer">Conventional Commits<small>Specification</small></a></li>
+          <li><a href="https://git-scm.com/docs/git-commit" target="_blank" rel="noopener noreferrer">git-commit reference<small>git-scm.com</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/saving-changes/git-commit" target="_blank" rel="noopener noreferrer">git commit tutorial<small>Atlassian</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="commit" viewBox="0 0 480 240" role="img" aria-labelledby="t-commit">
+          <title id="t-commit">Changed files are staged, then sealed into a single commit with a hash and message.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git commit -m "feat: add login"</text>
+          <text class="label" data-el="zonelabel" x="90" y="60" text-anchor="middle">working directory</text>
+          <text class="label" data-el="zonelabel" x="250" y="60" text-anchor="middle">staging area</text>
+          <text class="label" data-el="zonelabel" x="400" y="60" text-anchor="middle">repository</text>
+          <rect class="zone" x="190" y="68" width="120" height="146" rx="10"/>
+          <g data-el="file"><rect class="file" x="40" y="78" width="100" height="32" rx="6"/><text class="code" x="50" y="98">+ login.js</text></g>
+          <g data-el="file"><rect class="file" x="40" y="122" width="100" height="32" rx="6"/><text class="code" x="50" y="142">~ app.js</text></g>
+          <g data-el="file"><rect class="file" x="40" y="166" width="100" height="32" rx="6"/><text class="code" x="50" y="186">~ README.md</text></g>
+          <circle class="ring" data-el="ring" cx="400" cy="140" r="30" opacity="0"/>
+          <circle class="commit new" data-el="commit" cx="400" cy="140" r="30"/>
+          <text class="hash" data-el="hash" x="400" y="144" text-anchor="middle">a1f9c2e</text>
+          <text class="label" data-el="msg" x="400" y="194" text-anchor="middle">feat: add login</text>
+          <text class="label" data-el="meta" x="400" y="212" text-anchor="middle">Ada · just now</text>
+        </svg>
+        <figcaption><span>Stage what belongs together, then snapshot it.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 05 Push / Pull -->
+    <section class="concept" id="push-pull" aria-labelledby="h-push-pull">
+      <div>
+        <p class="eyebrow">05</p>
+        <h2 id="h-push-pull">Push / Pull</h2>
+        <p class="tagline">Upload to / download from the hosted repository.</p>
+        <p><code>git push</code> sends your local commits up to the remote. <code>git pull</code> fetches commits others have pushed and integrates them into your current branch — it's a <code>git fetch</code> followed by a merge (or a rebase, if configured).</p>
+        <h3>Try it</h3>
+        <pre><code>git push -u origin feature/login   <span class="c"># first push</span>
+git pull                           <span class="c"># get teammates' work</span>
+git fetch --all                    <span class="c"># look, don't integrate</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Pull before you start and before you push — it keeps conflicts small.</li>
+          <li>A push is rejected if the remote has commits you don't; pull first, then push.</li>
+          <li>Never <code>--force</code> push shared branches. If you must, use <code>--force-with-lease</code>.</li>
+          <li>Prefer linear history? <code>git config --global pull.rebase true</code>.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes" target="_blank" rel="noopener noreferrer">Working with Remotes<small>Pro Git book</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener noreferrer">Syncing: fetch, pull, push<small>Atlassian</small></a></li>
+          <li><a href="https://git-scm.com/docs/git-push" target="_blank" rel="noopener noreferrer">git-push reference<small>git-scm.com</small></a></li>
+          <li><a href="https://git-scm.com/docs/git-pull" target="_blank" rel="noopener noreferrer">git-pull reference<small>git-scm.com</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="pushpull" viewBox="0 0 480 240" role="img" aria-labelledby="t-pushpull">
+          <title id="t-pushpull">Your new commit is pushed up to GitHub; a teammate's commit is pulled down to your laptop.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git pull</text>
+          <g data-el="remote">
+            <rect class="box" x="280" y="45" width="180" height="80" rx="14"/>
+            <text class="label" x="296" y="66">origin (GitHub)</text>
+            <path class="line thin" d="M310 95 H350"/>
+            <circle class="commit" cx="310" cy="95" r="9"/>
+            <circle class="commit" cx="350" cy="95" r="9"/>
+          </g>
+          <g data-el="local">
+            <rect class="box" x="20" y="135" width="180" height="80" rx="14"/>
+            <text class="label" x="36" y="156">local · your laptop</text>
+            <path class="line thin" d="M50 185 H130"/>
+            <circle class="commit" cx="50" cy="185" r="9"/>
+            <circle class="commit" cx="90" cy="185" r="9"/>
+          </g>
+          <path class="line thin" data-el="rext1" d="M350 95 H390"/>
+          <path class="line thin" data-el="rext2" d="M390 95 H430"/>
+          <path class="line thin" data-el="lext" d="M130 185 H170"/>
+          <circle class="commit new" data-el="lnew" cx="130" cy="185" r="9"/>
+          <circle class="commit new" data-el="rnew" cx="390" cy="95" r="9"/>
+          <circle class="commit team" data-el="rteam" cx="430" cy="95" r="9"/>
+          <circle class="commit team" data-el="lpulled" cx="170" cy="185" r="9"/>
+          <circle class="commit new" data-el="up" cx="130" cy="185" r="9" opacity="0"/>
+          <circle class="commit team" data-el="down" cx="430" cy="95" r="9" opacity="0"/>
+          <text class="label gold-text" data-el="pushlbl" x="200" y="120">push ↑</text>
+          <text class="label teal-text" data-el="pulllbl" x="290" y="178">pull ↓</text>
+          <text class="label teal-text" data-el="teamlbl" x="456" y="145" text-anchor="end">teammate's commit</text>
+        </svg>
+        <figcaption><span>Push shares your work; pull brings in everyone else's.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 06 Diff -->
+    <section class="concept" id="diff" aria-labelledby="h-diff">
+      <div>
+        <p class="eyebrow">06</p>
+        <h2 id="h-diff">Diff</h2>
+        <p class="tagline">The visual difference between two versions of code.</p>
+        <p>A diff compares two versions line by line — your working files, the staging area, two commits or two branches. Removed lines are shown in red with a <code>−</code>, added lines in green with a <code>+</code>. It's how you review your own work and everyone else's.</p>
+        <h3>Try it</h3>
+        <pre><code>git diff                     <span class="c"># unstaged changes</span>
+git diff --staged            <span class="c"># what you'll commit</span>
+git diff main..feature/login <span class="c"># branch vs branch</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Plain <code>git diff</code> only shows <em>unstaged</em> changes — add <code>--staged</code> to see what's queued.</li>
+          <li><code>--word-diff</code> is much easier to read for prose and long lines.</li>
+          <li>Pure formatting changes can hide real ones; <code>-w</code> ignores whitespace. Keep reformatting in separate commits.</li>
+          <li>On GitHub, a PR's “Files changed” tab is a diff, and <code>/compare</code> diffs any two branches.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/docs/git-diff" target="_blank" rel="noopener noreferrer">git-diff reference<small>git-scm.com</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/saving-changes/git-diff" target="_blank" rel="noopener noreferrer">git diff tutorial<small>Atlassian</small></a></li>
+          <li><a href="https://docs.github.com/en/pull-requests/committing-changes-to-your-project/viewing-and-comparing-commits/comparing-commits" target="_blank" rel="noopener noreferrer">Comparing commits<small>GitHub Docs</small></a></li>
+          <li><a href="https://difftastic.wilfred.me.uk/" target="_blank" rel="noopener noreferrer">Difftastic — structural diff tool<small>difftastic.wilfred.me.uk</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="diff" viewBox="0 0 480 240" role="img" aria-labelledby="t-diff">
+          <title id="t-diff">Two versions of greet.js side by side: one line removed in red, two lines added in green.</title>
+          <text class="cmd" data-el="cmd" x="24" y="26">$ git diff main..feature</text>
+          <g data-el="panel">
+            <rect class="box" x="20" y="40" width="212" height="172" rx="10"/>
+            <text class="label" x="34" y="58">main · greet.js</text>
+            <path class="divider" d="M20 66 H232"/>
+            <rect class="hl-del" data-el="hl" x="22" y="92" width="208" height="19"/>
+            <text class="mark del" data-el="mark" x="28" y="106">−</text>
+            <text class="code" x="42" y="86">function greet(name) {</text>
+            <text class="code del" x="56" y="106">return "Hi " + name;</text>
+            <text class="code" x="42" y="126">}</text>
+            <text class="code" x="42" y="166">greet("Ada");</text>
+          </g>
+          <g data-el="panel">
+            <rect class="box" x="248" y="40" width="212" height="172" rx="10"/>
+            <text class="label" x="262" y="58">feature · greet.js</text>
+            <path class="divider" d="M248 66 H460"/>
+            <rect class="hl-add" data-el="hl" x="250" y="92" width="208" height="19"/>
+            <rect class="hl-add" data-el="hl" x="250" y="112" width="208" height="19"/>
+            <text class="mark add" data-el="mark" x="256" y="106">+</text>
+            <text class="mark add" data-el="mark" x="256" y="126">+</text>
+            <text class="code" x="270" y="86">function greet(name) {</text>
+            <text class="code add" x="284" y="106">return `Hello, ${name}!`;</text>
+            <text class="code add" x="284" y="126">// TODO: translate</text>
+            <text class="code" x="270" y="146">}</text>
+            <text class="code" x="270" y="186">greet("Ada");</text>
+          </g>
+          <rect class="scan" data-el="scan" x="20" y="70" width="440" height="2" opacity="0"/>
+          <text class="label" data-el="sum" x="240" y="231" text-anchor="middle">1 deletion (−) · 2 additions (+)</text>
+        </svg>
+        <figcaption><span>Red was removed, green was added.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 07 Merge -->
+    <section class="concept" id="merge" aria-labelledby="h-merge">
+      <div>
+        <p class="eyebrow">07</p>
+        <h2 id="h-merge">Merge</h2>
+        <p class="tagline">Combine a branch back into another branch.</p>
+        <p><code>git merge</code> brings the history of one branch into the branch you're on. If both branches have new commits, Git creates a <em>merge commit</em> with two parents. If the target hasn't moved, Git simply fast-forwards the pointer.</p>
+        <h3>Try it</h3>
+        <pre><code>git switch main
+git merge feature/login
+git branch -d feature/login   <span class="c"># tidy up</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Agree on a team strategy: merge commit, squash, or rebase-and-merge.</li>
+          <li>Merge commits preserve exactly when and how work came together; squash keeps <code>main</code> compact but loses individual commits.</li>
+          <li>Pull the latest target branch before merging.</li>
+          <li>Run the tests after a merge — two changes that work alone can break together.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging" target="_blank" rel="noopener noreferrer">Basic Branching and Merging<small>Pro Git book</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/using-branches/git-merge" target="_blank" rel="noopener noreferrer">git merge tutorial<small>Atlassian</small></a></li>
+          <li><a href="https://git-scm.com/docs/git-merge" target="_blank" rel="noopener noreferrer">git-merge reference<small>git-scm.com</small></a></li>
+          <li><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github" target="_blank" rel="noopener noreferrer">About merge methods on GitHub<small>GitHub Docs</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="merge" viewBox="0 0 480 240" role="img" aria-labelledby="t-merge">
+          <title id="t-merge">The feature branch curves back into main, creating a merge commit with two parents.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git switch main &amp;&amp; git merge feature/login</text>
+          <path class="line" data-el="main" d="M30 170 H450"/>
+          <path class="line feature" data-el="fpath" d="M130 170 C 170 170, 170 90, 210 90 H 290"/>
+          <path class="line feature" data-el="mpath" d="M290 90 C 330 90, 330 170, 370 170"/>
+          <circle class="commit" data-el="c" cx="60" cy="170" r="10"/>
+          <circle class="commit" data-el="c" cx="130" cy="170" r="10"/>
+          <circle class="commit feature" data-el="c" cx="230" cy="90" r="10"/>
+          <circle class="commit" data-el="c" cx="250" cy="170" r="10"/>
+          <circle class="commit feature" data-el="c" cx="290" cy="90" r="10"/>
+          <circle class="ring" data-el="ring" cx="370" cy="170" r="14" opacity="0"/>
+          <circle class="commit new" data-el="mc" cx="370" cy="170" r="14"/>
+          <text class="label" data-el="mlabel" x="30" y="200">main</text>
+          <g data-el="flabel">
+            <rect class="pill-branch" x="196" y="50" width="112" height="22" rx="11"/>
+            <text class="pill-text" x="252" y="65" text-anchor="middle">feature/login</text>
+          </g>
+          <text class="label" data-el="note" x="370" y="206" text-anchor="middle">merge commit · 2 parents</text>
+        </svg>
+        <figcaption><span>Both histories are kept; a merge commit ties them together.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 08 Rebase -->
+    <section class="concept" id="rebase" aria-labelledby="h-rebase">
+      <div>
+        <p class="eyebrow">08</p>
+        <h2 id="h-rebase">Rebase</h2>
+        <p class="tagline">Replay your commits on top of the latest <code>main</code>.</p>
+        <p><code>git rebase</code> lifts your branch's commits off their original base and re-applies them, one by one, on top of another branch. The result is a clean, linear history — but the replayed commits are <em>new</em> commits with new hashes (X → X′).</p>
+        <h3>Try it</h3>
+        <pre><code>git fetch origin
+git rebase origin/main
+git rebase -i HEAD~3   <span class="c"># squash / reorder / reword</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li><strong>Golden rule:</strong> never rebase commits other people have already pulled.</li>
+          <li>Because hashes change, pushing a rebased branch needs <code>--force-with-lease</code>.</li>
+          <li>Interactive rebase (<code>-i</code>) is great for cleaning up a branch before opening a PR.</li>
+          <li>Stuck? <code>git rebase --abort</code> undoes it, and <code>git reflog</code> can find any lost commit.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing" target="_blank" rel="noopener noreferrer">Rebasing<small>Pro Git book</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing" target="_blank" rel="noopener noreferrer">Merging vs. Rebasing<small>Atlassian</small></a></li>
+          <li><a href="https://git-scm.com/docs/git-rebase" target="_blank" rel="noopener noreferrer">git-rebase reference<small>git-scm.com</small></a></li>
+          <li><a href="https://ohshitgit.com/" target="_blank" rel="noopener noreferrer">Oh Shit, Git!?! — recovering from mistakes<small>ohshitgit.com</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="rebase" viewBox="0 0 480 240" role="img" aria-labelledby="t-rebase">
+          <title id="t-rebase">Feature commits X and Y move from an old base on main to sit after the latest commit C, becoming X prime and Y prime.</title>
+          <text class="cmd" data-el="cmd" x="24" y="30">$ git rebase main</text>
+          <path class="line" data-el="main" d="M30 170 H450"/>
+          <path class="line feature" data-el="old" d="M60 170 C 100 170, 100 90, 140 90 H 220"/>
+          <path class="line feature" data-el="new" d="M240 170 C 280 170, 280 90, 320 90 H 390"/>
+          <circle class="ghost" data-el="ghost" cx="150" cy="90" r="13" opacity="0"/>
+          <circle class="ghost" data-el="ghost" cx="220" cy="90" r="13" opacity="0"/>
+          <g data-el="m0"><circle class="commit" cx="60" cy="170" r="13"/><text class="commit-text" x="60" y="174" text-anchor="middle">A</text></g>
+          <g data-el="m0"><circle class="commit" cx="150" cy="170" r="13"/><text class="commit-text" x="150" y="174" text-anchor="middle">B</text></g>
+          <g data-el="m1"><circle class="commit" cx="240" cy="170" r="13"/><text class="commit-text" x="240" y="174" text-anchor="middle">C</text></g>
+          <g data-el="f">
+            <circle class="commit feature" cx="150" cy="90" r="13"/>
+            <text class="commit-text" data-el="orig" x="150" y="94" text-anchor="middle">X</text>
+            <text class="commit-text" data-el="prime" x="150" y="94" text-anchor="middle">X′</text>
+          </g>
+          <g data-el="f">
+            <circle class="commit feature" cx="220" cy="90" r="13"/>
+            <text class="commit-text" data-el="orig" x="220" y="94" text-anchor="middle">Y</text>
+            <text class="commit-text" data-el="prime" x="220" y="94" text-anchor="middle">Y′</text>
+          </g>
+          <text class="label teal-text" data-el="flab" x="150" y="64" text-anchor="middle">feature</text>
+          <text class="label" x="30" y="200">main</text>
+          <text class="label" data-el="clab" x="240" y="200" text-anchor="middle">latest main</text>
+          <text class="label" data-el="note" x="240" y="226" text-anchor="middle">X′ and Y′ are new commits with new hashes</text>
+        </svg>
+        <figcaption><span>Same changes, new base, linear history.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 09 Merge conflict -->
+    <section class="concept" id="merge-conflict" aria-labelledby="h-merge-conflict">
+      <div>
+        <p class="eyebrow">09</p>
+        <h2 id="h-merge-conflict">Merge conflict</h2>
+        <p class="tagline">Two changes touched the same lines; you choose.</p>
+        <p>When two branches change the same lines differently, Git can't know which is right, so it pauses and writes both versions into the file between conflict markers. You edit the file to the result you want, remove the markers, stage it and continue.</p>
+        <h3>Try it</h3>
+        <pre><code>git status                <span class="c"># lists conflicted files</span>
+<span class="c"># edit file, delete &lt;&lt;&lt;&lt;&lt;&lt;&lt; ======= &gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+git add page.js
+git commit                <span class="c"># or: git rebase --continue</span></code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Don't panic — <code>git merge --abort</code> returns you to where you started.</li>
+          <li>Make sure every <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> marker is gone before committing.</li>
+          <li>Small, frequent merges mean small, easy conflicts.</li>
+          <li>Use a merge tool — VS Code has a built-in 3-way merge editor. <code>git rerere</code> can remember repeated resolutions.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts" target="_blank" rel="noopener noreferrer">About merge conflicts<small>GitHub Docs</small></a></li>
+          <li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line" target="_blank" rel="noopener noreferrer">Resolving a conflict on the command line<small>GitHub Docs</small></a></li>
+          <li><a href="https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts" target="_blank" rel="noopener noreferrer">Merge conflicts<small>Atlassian</small></a></li>
+          <li><a href="https://git-scm.com/book/en/v2/Git-Tools-Rerere" target="_blank" rel="noopener noreferrer">Rerere — reuse recorded resolution<small>Pro Git book</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="conflict" viewBox="0 0 480 240" role="img" aria-labelledby="t-conflict">
+          <title id="t-conflict">Both branches changed the same line; Git shows conflict markers, and you keep one version to resolve it.</title>
+          <text class="cmd" data-el="cmd" x="24" y="26">$ git merge feature/greeting</text>
+          <text class="warn" data-el="warn" x="456" y="26" text-anchor="end">CONFLICT</text>
+          <g data-el="card">
+            <rect class="box" x="30" y="40" width="190" height="52" rx="8"/>
+            <text class="label" x="44" y="59">main</text>
+            <text class="code" x="44" y="80">title = "Welcome"</text>
+          </g>
+          <g data-el="card">
+            <rect class="box" x="260" y="40" width="190" height="52" rx="8"/>
+            <text class="label teal-text" x="274" y="59">feature/greeting</text>
+            <text class="code" x="274" y="80">title = "Hello there"</text>
+          </g>
+          <g data-el="panel">
+            <rect class="box" data-el="prect" x="90" y="108" width="300" height="116" rx="8"/>
+            <rect class="hl-pick" data-el="pick" x="94" y="177" width="292" height="19" rx="3"/>
+            <text class="code conflict" data-el="cl" x="106" y="130">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</text>
+            <text class="code" data-el="cl" x="106" y="150">title = "Welcome"</text>
+            <text class="code conflict" data-el="cl" x="106" y="170">=======</text>
+            <text class="code" data-el="cl" x="106" y="190">title = "Hello there"</text>
+            <text class="code conflict" data-el="cl" x="106" y="210">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/greeting</text>
+          </g>
+          <g data-el="ok">
+            <rect class="ok" x="300" y="96" width="96" height="24" rx="12"/>
+            <text class="pill-text" x="348" y="112" text-anchor="middle">resolved ✓</text>
+          </g>
+        </svg>
+        <figcaption><span>Git marks both versions — you decide what stays.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 10 Pull Request -->
+    <section class="concept" id="pull-request" aria-labelledby="h-pull-request">
+      <div>
+        <p class="eyebrow">10</p>
+        <h2 id="h-pull-request">Pull Request (PR)</h2>
+        <p class="tagline">"Please review and merge my branch."</p>
+        <p>A pull request is a GitHub feature (GitLab calls it a <em>merge request</em>), not a Git command. It proposes merging your branch into another, and gives the team one place for the diff, discussion, code review and automated CI checks before anything lands on <code>main</code>.</p>
+        <h3>Try it</h3>
+        <pre><code>git push -u origin feature/login
+gh pr create --fill          <span class="c"># GitHub CLI</span>
+gh pr merge --squash</code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Keep PRs small and focused — reviewers catch more in 200 lines than in 2,000.</li>
+          <li>Explain the <em>what</em>, the <em>why</em> and <em>how to test</em>; add screenshots for UI changes.</li>
+          <li>Write <code>Fixes #17</code> in the description to link and auto-close an issue.</li>
+          <li>Open a <em>draft</em> PR for early feedback; require passing CI and approval before merging.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" target="_blank" rel="noopener noreferrer">About pull requests<small>GitHub Docs</small></a></li>
+          <li><a href="https://docs.github.com/en/get-started/using-github/github-flow" target="_blank" rel="noopener noreferrer">GitHub flow<small>GitHub Docs</small></a></li>
+          <li><a href="https://google.github.io/eng-practices/review/" target="_blank" rel="noopener noreferrer">Code Review Developer Guide<small>Google Engineering Practices</small></a></li>
+          <li><a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">GitHub CLI (gh)<small>cli.github.com</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="pr" viewBox="0 0 480 240" role="img" aria-labelledby="t-pr">
+          <title id="t-pr">A branch becomes a pull request, gets reviewed and passes checks, then is merged into main.</title>
+          <g data-el="branch">
+            <rect class="box" x="16" y="78" width="124" height="84" rx="10"/>
+            <rect class="pill-branch" x="28" y="90" width="100" height="20" rx="10"/>
+            <text class="pill-text" x="78" y="104" text-anchor="middle">feature/login</text>
+            <path class="line thin feature" d="M40 138 H116"/>
+            <circle class="commit feature" cx="40" cy="138" r="7"/>
+            <circle class="commit feature" cx="78" cy="138" r="7"/>
+            <circle class="commit feature" cx="116" cy="138" r="7"/>
+          </g>
+          <path class="line thin" data-el="a1" d="M140 120 H180"/>
+          <g data-el="card">
+            <rect class="box" x="180" y="18" width="196" height="212" rx="12"/>
+            <text class="title small" x="196" y="44">#42 Add login form</text>
+            <text class="label" x="196" y="104">Reviewer</text>
+          </g>
+          <g data-el="open">
+            <rect class="pill-open" x="196" y="56" width="64" height="22" rx="11"/>
+            <text class="pill-text" x="228" y="71" text-anchor="middle">Open</text>
+          </g>
+          <g data-el="merged">
+            <rect class="pill-merged" x="196" y="56" width="74" height="22" rx="11"/>
+            <text class="pill-text" x="233" y="71" text-anchor="middle">Merged</text>
+          </g>
+          <g data-el="av">
+            <circle class="avatar" cx="270" cy="100" r="11"/>
+            <text class="avatar-text" x="270" y="104" text-anchor="middle">A</text>
+          </g>
+          <g data-el="bubble">
+            <rect class="bubble" x="196" y="116" width="164" height="26" rx="8"/>
+            <text class="code" x="206" y="133">Ada: Looks good to me!</text>
+          </g>
+          <text class="check-text" data-el="check" x="196" y="166">✓ CI: tests passed</text>
+          <text class="check-text" data-el="check" x="196" y="186">✓ Approved by Ada</text>
+          <g data-el="btn">
+            <rect class="ok" x="196" y="196" width="164" height="24" rx="6"/>
+            <text class="pill-text" x="278" y="212" text-anchor="middle">Merge pull request</text>
+          </g>
+          <path class="line thin" data-el="a2" d="M376 120 H414"/>
+          <path class="line thin" d="M414 120 H470"/>
+          <text class="label" x="442" y="100" text-anchor="middle">main</text>
+          <circle class="ring" data-el="ring" cx="442" cy="120" r="9" opacity="0"/>
+          <circle class="commit new" data-el="mnode" cx="442" cy="120" r="9"/>
+        </svg>
+        <figcaption><span>Review + checks happen before the merge, not after.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+
+    <!-- 11 Issue -->
+    <section class="concept" id="issue" aria-labelledby="h-issue">
+      <div>
+        <p class="eyebrow">11</p>
+        <h2 id="h-issue">Issue</h2>
+        <p class="tagline">A ticket: bug, feature, or task.</p>
+        <p>Issues track work that needs doing. Each has a title, description, labels, assignees and optional milestones, and can be linked to the pull requests that resolve it. When a linked PR merges, the issue closes automatically.</p>
+        <h3>Try it</h3>
+        <pre><code>gh issue create --title "Login button unresponsive" --label bug
+gh issue list --assignee @me
+git commit -m "Fix click handler (fixes #17)"</code></pre>
+        <h3>Considerations</h3>
+        <ul>
+          <li>Good bug reports include steps to reproduce, expected vs actual behaviour and environment details.</li>
+          <li>Use issue templates and consistent labels so reports are easy to triage.</li>
+          <li>Search before filing to avoid duplicates.</li>
+          <li>Break large work into smaller issues and track them on a GitHub Project board.</li>
+        </ul>
+        <h3>Resources</h3>
+        <ul class="resources">
+          <li><a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues" target="_blank" rel="noopener noreferrer">About issues<small>GitHub Docs</small></a></li>
+          <li><a href="https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository" target="_blank" rel="noopener noreferrer">Configuring issue templates<small>GitHub Docs</small></a></li>
+          <li><a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue" target="_blank" rel="noopener noreferrer">Linking a pull request to an issue<small>GitHub Docs</small></a></li>
+          <li><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects" target="_blank" rel="noopener noreferrer">About Projects<small>GitHub Docs</small></a></li>
+        </ul>
+      </div>
+      <figure class="concept-viz">
+        <svg class="viz" data-viz="issue" viewBox="0 0 480 240" role="img" aria-labelledby="t-issue">
+          <title id="t-issue">An issue is opened, labelled and assigned, its tasks are ticked off, and it closes when the linked pull request merges.</title>
+          <g data-el="card">
+            <rect class="box" x="20" y="18" width="284" height="210" rx="12"/>
+            <text class="title small" x="36" y="46">#17 Login button unresponsive</text>
+            <text class="label" x="36" y="110">Tasks</text>
+            <text class="label" x="36" y="214">Clicking “Log in” does nothing on Safari.</text>
+          </g>
+          <g data-el="open">
+            <rect class="pill-open" x="36" y="58" width="60" height="22" rx="11"/>
+            <text class="pill-text" x="66" y="73" text-anchor="middle">Open</text>
+          </g>
+          <g data-el="closed">
+            <rect class="pill-merged" x="36" y="58" width="66" height="22" rx="11"/>
+            <text class="pill-text" x="69" y="73" text-anchor="middle">Closed</text>
+          </g>
+          <g data-el="tag">
+            <rect class="tag-bug" x="110" y="59" width="40" height="20" rx="10"/>
+            <text class="tag-text" x="130" y="73" text-anchor="middle">bug</text>
+          </g>
+          <g data-el="tag">
+            <rect class="tag-prio" x="156" y="59" width="96" height="20" rx="10"/>
+            <text class="tag-text" x="204" y="73" text-anchor="middle">priority: high</text>
+          </g>
+          <g data-el="assignee">
+            <circle class="avatar teal" cx="280" cy="69" r="12"/>
+            <text class="avatar-text" x="280" y="73" text-anchor="middle">M</text>
+          </g>
+          <g data-el="row"><rect class="cbox" x="36" y="124" width="14" height="14" rx="3"/><text class="code" x="60" y="135">Reproduce the bug</text></g>
+          <g data-el="row"><rect class="cbox" x="36" y="150" width="14" height="14" rx="3"/><text class="code" x="60" y="161">Fix click handler</text></g>
+          <g data-el="row"><rect class="cbox" x="36" y="176" width="14" height="14" rx="3"/><text class="code" x="60" y="187">Add regression test</text></g>
+          <path class="tick-dark" data-el="tick" d="M39 131 l3 3 l6 -7"/>
+          <path class="tick-dark" data-el="tick" d="M39 157 l3 3 l6 -7"/>
+          <path class="tick-dark" data-el="tick" d="M39 183 l3 3 l6 -7"/>
+          <path class="line thin" data-el="link" d="M304 122 H330"/>
+          <g data-el="pr">
+            <rect class="box" x="330" y="92" width="130" height="60" rx="10"/>
+            <text class="title small" x="344" y="116">PR #42</text>
+            <text class="code" x="344" y="138">Fixes #17</text>
+          </g>
+          <text class="label" data-el="note" x="395" y="175" text-anchor="middle">auto-closed on merge</text>
+        </svg>
+        <figcaption><span>Issues describe the work; PRs deliver it.</span><button class="replay" type="button">↻ Replay</button></figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Built with vanilla HTML, CSS and JavaScript. Animations by <a href="https://gsap.com/" target="_blank" rel="noopener noreferrer">GSAP</a>. Respects your “reduce motion” setting.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
